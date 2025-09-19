@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Агент — RealtyCalendar</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="chatbox">
+  <div class="messages" id="messages"></div>
+  <div class="inputbar">
+    <input class="form-control" id="inp" placeholder="Введите вопрос…">
+    <button class="btn btn-primary" onclick="send()">Отправить</button>
+  </div>
+</div>
+
+<script>
+const messages = document.getElementById('messages');
+const inp = document.getElementById('inp');
+
+function add(text, who) {
+  const div = document.createElement('div');
+  div.className = `msg ${who}`;
+  div.textContent = text;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+async function send() {
+  const q = inp.value.trim();
+  if (!q) return;
+  add(q, 'me'); inp.value = '';
+  try {
+    const res  = await fetch(`/agent/ask?q=${encodeURIComponent(q)}`);
+    const data = await res.json();
+    add(data.answer || 'Бот не вернул ответа.', 'bot');
+  } catch {
+    add('Ошибка запроса к серверу', 'bot');
+  }
+}
+
+window.addEventListener('load', ()=> {
+  add('👋 Привет! Я твой AI-ассистент RealtyCalendar. Спроси про инструмент или напиши: "объясни инструмент в ячейке 2".', 'bot');
+});
+
+inp.addEventListener('keydown', e=>{
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Инструменты — RealtyCalendar</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+</head>
+<body class="bg-light">
+<div class="container py-4">
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h3 class="m-0">Инструменты из Google Sheets</h3>
+    <a class="btn btn-primary" href="/agent/chat">Открыть чат-агента</a>
+  </div>
+
+  <table id="toolsTable" class="table table-striped table-bordered w-100">
+    <thead>
+    <tr>
+      <th>Название инструмента</th>
+      <th>Ссылка</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script>
+async function loadData() {
+  const res  = await fetch("/gdrive/read");
+  const json = await res.json();
+  const rows = (json.rows || []).map(r => [
+    r.tool,
+    `<a href="${r.url}" target="_blank">${r.url}</a>`
+  ]);
+  $('#toolsTable').DataTable({
+    data: rows,
+    language: { url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/ru.json" }
+  });
+}
+loadData();
+</script>
+</body>
+</html>

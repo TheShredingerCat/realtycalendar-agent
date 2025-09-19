@@ -1,0 +1,5 @@
+id: realtycalendar-gdrive
+name: RealtyCalendar Google Sheets
+description: Источник данных (Google Sheets) с инструментами RealtyCalendar
+type: python
+entrypoint: tools.realtycalendar:get_data

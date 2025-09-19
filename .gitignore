@@ -1,0 +1,51 @@
+ Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual env
+.venv/
+venv/
+ENV/
+env/
+credentials.json/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Logs
+*.log
+*.out
+*.err
+
+# System
+.DS_Store
+Thumbs.db
+
+# Python env files
+.env
+.env.*
+!.env.example
+
+# Jupyter
+.ipynb_checkpoints
+
+# Cache
+.cache/
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Static/media uploads
+app/static/uploads/
+app/media/
