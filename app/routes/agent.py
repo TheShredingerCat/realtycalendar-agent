@@ -2,6 +2,7 @@ from fastapi import APIRouter, Query, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from app.services.agent_service import ask_agent
+from app.services.gdrive_service import find_tool_by_name
 
 router = APIRouter(prefix="/agent", tags=["AI Agent"])
 templates = Jinja2Templates(directory="app/templates")
@@ -19,7 +20,7 @@ def ask(q: str = Query(..., description="Вопрос пользователя")
 @router.get("/debug")
 def debug(q: str = Query(..., description="Тест запроса")):
     """Возвращает: найденный инструмент и краткий ответ."""
-    tool = find_tool_info(q)
+    tool = find_tool_by_name(q)
     if not tool:
         return {"status": "no_tool", "msg": "Инструмент не найден в таблице"}
     answer = ask_agent(q)
